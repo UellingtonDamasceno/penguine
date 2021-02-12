@@ -31,9 +31,15 @@ public abstract class Entity extends Observable implements Drawable, Upgradeable
     @Override
     public abstract void update();
 
+    protected abstract void renderHook(GraphicsContext graphic);
+    
     @Override
-    public abstract void render(GraphicsContext graphic);
-
+    public final void render(GraphicsContext graphic){
+        graphic.save();
+        this.renderHook(graphic);
+        graphic.restore();
+    }
+    
     public final void showReferencePoints(GraphicsContext graphic) {
         graphic.setFill(Color.RED);
         for (Point2D referencesPoint : referencePoints) {
