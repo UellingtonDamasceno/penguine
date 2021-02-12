@@ -4,14 +4,14 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import penguine.game.base.Cleanable;
-import penguine.game.base.Mensurable;
 import penguine.game.base.Upgradeable;
+import penguine.game.base.Measurable;
 
 /**
  *
  * @author Uellington Conceição
  */
-public abstract class Game implements Mensurable, Upgradeable, Cleanable {
+public abstract class Game implements Measurable, Upgradeable, Cleanable {
 
     private final String name;
 
