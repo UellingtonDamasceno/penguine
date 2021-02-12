@@ -44,7 +44,6 @@ public abstract class Entity extends Observable implements Drawable, Upgradeable
         graphic.setFill(Color.RED);
         for (Point2D referencesPoint : referencePoints) {
             graphic.fillOval(referencesPoint.getX() - 2.5, referencesPoint.getY() - 2.5, 5, 5);
-            graphic.save();
         }
     }
 

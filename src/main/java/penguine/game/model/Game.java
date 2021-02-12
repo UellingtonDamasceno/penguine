@@ -3,6 +3,7 @@ package penguine.game.model;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import penguine.game.base.Cleanable;
 import penguine.game.base.Upgradeable;
 import penguine.game.base.Measurable;
@@ -24,16 +25,17 @@ public abstract class Game implements Measurable, Upgradeable, Cleanable {
     protected final double MIN_Y;
 
     protected GraphicsContext graphic;
+    private Paint defaultColor;
 
     public Game(String name) {
-        this(name, 500, 500);
+        this(name, 500, 500, Color.WHITE);
     }
 
-    public Game(String name, double x, double y) {
-        this(name, 0, 0, x, y);
+    public Game(String name, double x, double y, Paint color) {
+        this(name, 0, 0, x, y, color);
     }
 
-    public Game(String name, double minX, double minY, double x, double y) {
+    public Game(String name, double minX, double minY, double x, double y, Paint color) {
         this.name = name;
         this.MIN_X = minX;
         this.MIN_Y = minY;
@@ -41,6 +43,7 @@ public abstract class Game implements Measurable, Upgradeable, Cleanable {
         this.Y = y;
         this.canvas = new Canvas(X, Y);
         this.graphic = this.canvas.getGraphicsContext2D();
+        this.defaultColor = color;
     }
 
     public final String getName() {
@@ -76,7 +79,7 @@ public abstract class Game implements Measurable, Upgradeable, Cleanable {
 
     @Override
     public final void clear() {
-        this.graphic.setFill(Color.GREY);
+        this.graphic.setFill(defaultColor);
         this.graphic.fillRect(MIN_X, MIN_Y, X, Y);
     }
 

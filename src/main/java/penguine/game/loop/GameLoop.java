@@ -1,5 +1,6 @@
 package penguine.game.loop;
 
+import javafx.application.Platform;
 import penguine.game.model.Game;
 
 /**
@@ -54,11 +55,12 @@ public class GameLoop implements Runnable {
             delta += (now - lastTime) / INTERVAL;
             lastTime = now;
             if (delta >= 1) {
-                this.game.clear();
-                this.game.update();
+                Platform.runLater(() -> {
+                    this.game.clear();
+                    this.game.update();
+                });
                 delta--;
             }
         }
     }
-
 }
