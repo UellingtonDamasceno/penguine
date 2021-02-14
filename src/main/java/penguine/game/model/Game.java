@@ -18,32 +18,32 @@ public abstract class Game implements Measurable, Upgradeable, Cleanable {
 
     private final Canvas canvas;
 
+    protected final double WIDHT;
+    protected final double HEIGHT;
+
     protected final double X;
     protected final double Y;
-
-    protected final double MIN_X;
-    protected final double MIN_Y;
 
     protected GraphicsContext graphic;
     private Paint defaultColor;
 
-    public Game(String name) {
-        this(name, 500, 500, Color.WHITE);
+    public Game(String name, double width, double height) {
+        this(name, width, height, Color.BLACK);
     }
 
-    public Game(String name, double x, double y, Paint color) {
-        this(name, 0, 0, x, y, color);
+    public Game(String name, double width, double height, Paint color) {
+        this(name, 0, 0, width, height, color);
     }
 
-    public Game(String name, double minX, double minY, double x, double y, Paint color) {
+    public Game(String name, double x, double y, double widht, double height, Paint color) {
         this.name = name;
-        this.MIN_X = minX;
-        this.MIN_Y = minY;
         this.X = x;
         this.Y = y;
-        this.canvas = new Canvas(X, Y);
-        this.graphic = this.canvas.getGraphicsContext2D();
+        this.WIDHT = widht;
+        this.HEIGHT = height;
         this.defaultColor = color;
+        this.canvas = new Canvas(WIDHT, HEIGHT);
+        this.graphic = this.canvas.getGraphicsContext2D();
     }
 
     public final String getName() {
@@ -52,6 +52,16 @@ public abstract class Game implements Measurable, Upgradeable, Cleanable {
 
     public Canvas getCanvas() {
         return this.canvas;
+    }
+
+    @Override
+    public double getWidth() {
+        return this.WIDHT;
+    }
+
+    @Override
+    public double getHeight() {
+        return this.HEIGHT;
     }
 
     @Override
@@ -65,22 +75,12 @@ public abstract class Game implements Measurable, Upgradeable, Cleanable {
     }
 
     @Override
-    public double getMinX() {
-        return this.MIN_X;
-    }
-
-    @Override
-    public double getMinY() {
-        return this.MIN_Y;
-    }
-
-    @Override
     public abstract void update();
 
     @Override
     public final void clear() {
         this.graphic.setFill(defaultColor);
-        this.graphic.fillRect(MIN_X, MIN_Y, X, Y);
+        this.graphic.fillRect(X, Y, WIDHT, HEIGHT);
     }
 
 }
