@@ -2,75 +2,69 @@ package penguine.game.model;
 
 import java.util.Observable;
 import javafx.geometry.Point2D;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 import penguine.game.base.Drawable;
+import penguine.game.base.Measurable;
+import penguine.game.base.Movable;
 import penguine.game.base.Upgradeable;
 
 /**
  *
  * @author Uellington Conceição
  */
-public abstract class Entity extends Observable implements Drawable, Upgradeable{
+public abstract class Entity extends Observable implements Drawable, Measurable, Movable, Upgradeable {
 
-    protected Point2D originPoint;
-    protected Point2D[] referencePoints;
-    protected Rectangle2D rectangle;
-    protected double width, height;
+    protected Point2D origin;
+    protected double x, y, width, height;
 
     public Entity(double x, double y, double width, double height) {
+        this.x = x;
+        this.y = y;
         this.width = width;
         this.height = height;
-        this.originPoint = new Point2D(x, y);
-        this.referencePoints = new Point2D[9];
-        this.calculeReferencePoint(x, y, width, height);
-        this.rectangle = new Rectangle2D(x, y, width, height);
+        this.origin = new Point2D(x, y);
+    }
+
+    @Override
+    public double getX() {
+        return x;
+    }
+
+    @Override
+    public double getY() {
+        return y;
+    }
+
+    @Override
+    public double getWidth() {
+        return width;
+    }
+
+    @Override
+    public double getHeight() {
+        return height;
+    }
+
+    @Override
+    public void move(double x, double y) {
+        this.x = x;
+        this.y = y;
     }
 
     @Override
     public abstract void update();
 
-    protected abstract void renderHook(GraphicsContext graphic);
-    
     @Override
-    public final void render(GraphicsContext graphic){
+    public final void render(GraphicsContext graphic) {
         graphic.save();
         this.renderHook(graphic);
         graphic.restore();
     }
-    
-    public final void showReferencePoints(GraphicsContext graphic) {
-        graphic.setFill(Color.RED);
-        for (Point2D referencesPoint : referencePoints) {
-            graphic.fillOval(referencesPoint.getX() - 2.5, referencesPoint.getY() - 2.5, 5, 5);
-        }
-    }
 
-    public final void setPosition(double x, double y) {
-        this.calculeReferencePoint(x, y, width, height);
-    }
-
-    public final void setPosition(Point2D point) {
-        this.calculeReferencePoint(point.getX(), point.getY(), this.width, this.height);
-    }
-
-    private void calculeReferencePoint(double x, double y, double width, double height) {
-        this.referencePoints[2] = new Point2D((x + width), y);//9
-        this.referencePoints[5] = new Point2D((x + width), y + (height / 2));//6
-        this.referencePoints[8] = new Point2D((x + width), (y + height));//3
-
-        this.referencePoints[0] = new Point2D(x, y); //7
-        this.referencePoints[3] = new Point2D(x, y + (height / 2));//4
-        this.referencePoints[6] = new Point2D(x, (y + height));//1
-
-        this.referencePoints[1] = new Point2D(x + (width / 2), y);//8
-        this.referencePoints[4] = new Point2D(x + (width / 2), y + (height / 2));//5
-        this.referencePoints[7] = new Point2D(x + (width / 2), (y + height));//2        
-    }
+    protected abstract void renderHook(GraphicsContext graphic);
 
     @Override
     public String toString() {
-        return "entity: {point" + this.originPoint + "}";
+        return "entity: {point" + this.origin + "}";
     }
 }
